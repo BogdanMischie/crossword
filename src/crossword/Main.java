@@ -18,6 +18,8 @@ public class Main {
 	private static boolean solved = false;
 	private static int Score = 0;
 	private static String won ="";
+	private static String str = "";
+	private static ArrayList<String> wordList =  new ArrayList<String>();
 	
 	private static String attempt ="";
 	private static String secretWord ="notEmpty";
@@ -158,16 +160,13 @@ public class Main {
 		score.setBounds(x,(int) screenSize.getHeight()/(h+1)*1, (int)screenSize.getWidth()/(w+1) ,(int) screenSize.getHeight()/(h+1) );
 		frame.add(score);
 		score.doClick();
-		String str = "";
-		int split = 40;
+		
+		
 		for(int word =0; word<c.getWordList().length; word++) {
-			str+=c.getWordList()[word] ;
-			if(str.length() >split) {
-				
-				str = str.substring(0, split)+ "\n" +str.substring(split,str.length());
-				split+=40;
-			}
-			str+= " ";
+			wordList.add(c.getWordList()[word]);
+			str+=wordList.get(word) ;
+			
+			str+= "\n";
 		}
 
 		JButton words = new JButton("<html>" + str.replaceAll("\\n", "<br>") + "</html>");
@@ -183,9 +182,7 @@ public class Main {
 	        	solved = false;
 	        	attempt ="";
 	        	cords.sort(null);
-	        	if(cords.size() < 2) {
-	        		return;
-	        	}
+	   
 	        	int row = cords.get(0)/w;
 	        	int col = cords.get(0)%w;
 	        	int row1 = cords.get(1)/w;
@@ -234,6 +231,19 @@ public class Main {
 		        			solved = true;
 		        			Score += 50*attempt.length();
 		        			score.setText("Score :" + Score);
+		        			
+		        			for(int word =0; word<c.getWordList().length; word++) {
+		        				
+		        				if(c.getWordList()[word].contentEquals(secretWord)) {
+		        					wordList.remove(word);
+		        				}
+		        				str+=wordList.get(word) ;
+
+		        				str+= "\n";
+
+		        			}
+		        			
+		        			words.setText(str);
 		        			if(Score == won.length()*50) {
 		        				
 		        			}
